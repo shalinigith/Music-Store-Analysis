@@ -1,6 +1,6 @@
 Question Set 1 - Easy 
 
- Q1: Who is the senior most employee based on job title? */
+ Q1: Who is the senior most employee based on job title? 
 
 SELECT title, last_name, first_name 
 FROM employee
@@ -57,25 +57,23 @@ Method 1
 SELECT DISTINCT email,first_name, last_name
 FROM customer
 JOIN invoice ON customer.customer_id = invoice.customer_id
-JOIN invoiceline ON invoice.invoice_id = invoiceline.invoice_id
+JOIN invoice_line ON invoice.invoice_id = invoice_line.invoice_id
 WHERE track_id IN(
-	SELECT track_id FROM track
-	JOIN genre ON track.genre_id = genre.genre_id
-	WHERE genre.name LIKE 'Rock'
-)
+SELECT track_id FROM track
+JOIN genre ON track.genre_id = genre.genre_id
 ORDER BY email;
 
-
-Method 2 
-
+Method 2
+	
 SELECT DISTINCT email AS Email,first_name AS FirstName, last_name AS LastName, genre.name AS Name
 FROM customer
 JOIN invoice ON invoice.customer_id = customer.customer_id
-JOIN invoiceline ON invoiceline.invoice_id = invoice.invoice_id
-JOIN track ON track.track_id = invoiceline.track_id
+JOIN invoice_line ON invoice_line.invoice_id = invoice.invoice_id
+JOIN track ON track.track_id = invoice_line.track_id
 JOIN genre ON genre.genre_id = track.genre_id
 WHERE genre.name LIKE 'Rock'
 ORDER BY email;
+
 
 
 Q2: Let's invite the artists who have written the most rock music in our dataset. 
@@ -95,14 +93,12 @@ LIMIT 10;
  Q3: Return all the track names that have a song length longer than the average song length. 
 Return the Name and Milliseconds for each track. Order by the song length with the longest songs listed first. 
 
-SELECT name,miliseconds
+SELECT name,milliseconds
 FROM track
-WHERE miliseconds > (
-	SELECT AVG(miliseconds) AS avg_track_length
-	FROM track )
-ORDER BY miliseconds DESC;
-
-
+WHERE milliseconds > (
+	SELECT AVG(milliseconds) AS avg_track_length
+	FROM track 
+ORDER BY milliseconds DESC;
 
 
  Question Set 3 - Advance 
@@ -112,7 +108,7 @@ Q1: Find how much amount spent by each customer on artists? Write a query to ret
 Steps to Solve: First, find which artist has earned the most according to the InvoiceLines. Now use this artist to find 
 which customer spent the most on this artist. For this query, you will need to use the Invoice, InvoiceLine, Track, Customer, 
 Album, and Artist tables. Note, this one is tricky because the Total spent in the Invoice table might not be on a single product, 
-so you need to use the InvoiceLine table to find out how many of each product was purchased, and then multiply this by the price
+so we need to use the InvoiceLine table to find out how many of each product was purchased, and then multiply this by the price
 for each artist. 
 
 WITH best_selling_artist AS (
