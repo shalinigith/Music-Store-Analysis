@@ -8,8 +8,8 @@ This project involves analyzing data from a music store using SQL. The goal is t
 Technologies Used
 
 SQL: For querying the database and performing data analysis.
-Data and tools:
-1) Postgresql
+Tools:-
+1) PostgreSQL
 2) Pgadmin4
 
 
